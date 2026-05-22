@@ -8,164 +8,228 @@
     font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-.reporte-card {
-    width: min(560px, 100%);
+.registro-card {
+    width: min(1000px, 100%);
     background: rgba(245, 253, 242, 0.95);
     border: 1px solid rgba(67, 110, 77, 0.18);
     border-radius: 1rem;
     box-shadow: 0 22px 45px rgba(31, 60, 41, 0.12);
     padding: 2rem;
     display: grid;
-    gap: 1.25rem;
+    gap: 1.5rem;
 }
 
-.reporte-card h1 {
+.registro-card h1 {
     margin: 0;
     font-size: clamp(1.9rem, 2.4vw, 2.4rem);
     line-height: 1.05;
     color: #1f3e2e;
 }
 
-.reporte-card p,
-.reporte-card label {
+.registro-card h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #1f3e2e;
+}
+
+.registro-card p {
+    margin: 0;
     font-size: 1.05rem;
     line-height: 1.65;
     color: #2f5140;
 }
 
-.form-group {
-    display: grid;
-    gap: 0.6rem;
+.cargando {
+    color: #5f7f6c;
+    font-style: italic;
+    text-align: center;
+    padding: 2rem;
 }
 
-input,
-textarea {
-    width: 100%;
-    font: inherit;
-    border: 1px solid #a9c8a6;
+.error {
+    color: #c0392b;
+    background: #fdeaea;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.sin-datos {
+    color: #5f7f6c;
+    text-align: center;
+    padding: 2rem;
+    font-style: italic;
+}
+
+/* Totales */
+.totales-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+}
+
+.tarjeta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.25rem;
     border-radius: 0.85rem;
     background: #f7fbf6;
-    padding: 0.95rem 1rem;
-    color: #1f3729;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    box-sizing: border-box;
+    border: 1px solid rgba(67, 110, 77, 0.15);
+    transition: transform 0.2s ease;
 }
 
-input:focus,
-textarea:focus {
-    outline: none;
-    border-color: #79ac7f;
-    box-shadow: 0 0 0 4px rgba(121, 172, 127, 0.18);
+.tarjeta:hover {
+    transform: translateY(-2px);
 }
 
-textarea {
-    resize: vertical;
+.tarjeta-numero {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f3e2e;
 }
 
-button {
+.tarjeta-label {
+    font-size: 0.9rem;
+    color: #5f7f6c;
+    margin-top: 0.25rem;
+}
+
+.tarjeta-total { border-top: 4px solid #4f7e5e; }
+.tarjeta-saludable { border-top: 4px solid #3a8a57; }
+.tarjeta-herido { border-top: 4px solid #e67e22; }
+.tarjeta-enfermo { border-top: 4px solid #c0392b; }
+
+/* Secciones */
+.seccion {
+    display: grid;
+    gap: 0.75rem;
+}
+
+/* Meses */
+.meses-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.mes-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(121, 172, 127, 0.15);
+    border-radius: 2rem;
+    border: 1px solid rgba(121, 172, 127, 0.3);
+}
+
+.mes-nombre {
+    font-weight: 600;
+    color: #1f3e2e;
+    font-size: 0.9rem;
+}
+
+.mes-total {
+    background: #4f7e5e;
+    color: white;
+    padding: 0.15rem 0.5rem;
+    border-radius: 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+/* Tabla */
+.tabla-contenedor {
+    overflow-x: auto;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(67, 110, 77, 0.15);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+table th,
+table td {
+    padding: 0.85rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(67, 110, 77, 0.1);
+}
+
+table th {
+    background: rgba(121, 172, 127, 0.12);
+    font-weight: 600;
+    color: #1f3e2e;
+    white-space: nowrap;
+}
+
+table tr:hover {
+    background: rgba(121, 172, 127, 0.06);
+}
+
+table td {
+    color: #2f5140;
+}
+
+/* Estado badges */
+.estado-badge {
+    display: inline-block;
+    padding: 0.3rem 0.7rem;
+    border-radius: 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.estado-saludable {
+    background: #d4edda;
+    color: #155724;
+}
+
+.estado-herido {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.estado-enfermo {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Botón reintentar */
+.btn-reintentar {
     font: inherit;
     border: none;
-    border-radius: 0.95rem;
+    border-radius: 0.75rem;
     background: #4f7e5e;
     color: #f7f9f3;
-    padding: 1rem 1.5rem;
+    padding: 0.75rem 1.5rem;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    justify-self: center;
 }
 
-button:hover:not(:disabled) {
+.btn-reintentar:hover {
     background: #3b6c4d;
 }
 
-button:disabled {
-    background: #a7bfa3;
-    cursor: not-allowed;
-}
+@media (max-width: 640px) {
+    .registro-card {
+        padding: 1.25rem;
+    }
 
-.form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.85rem;
-}
+    .totales-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
-.form-actions button:first-child {
-    background: transparent;
-    color: #4f7e5e;
-    border: 1.5px solid #a9c8a6;
-}
-
-.form-actions button:first-child:hover:not(:disabled) {
-    background: #eef6ec;
-}
-
-small {
-    color: #5f7f6c;
-    font-size: 0.95rem;
-}
-
-/* ── Modal de éxito ── */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(20, 45, 30, 0.45);
-    display: grid;
-    place-items: center;
-    z-index: 100;
-    animation: fadeIn 0.2s ease;
-}
-
-.modal {
-    background: #f5fdf2;
-    border: 1px solid rgba(67, 110, 77, 0.2);
-    border-radius: 1.2rem;
-    box-shadow: 0 28px 55px rgba(31, 60, 41, 0.2);
-    padding: 2.5rem 2rem;
-    width: min(380px, 90vw);
-    text-align: center;
-    display: grid;
-    gap: 0.85rem;
-    animation: slideUp 0.25s ease;
-}
-
-.modal-icon {
-    width: 3.5rem;
-    height: 3.5rem;
-    background: #4f7e5e;
-    color: #f7f9f3;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin: 0 auto;
-}
-
-.modal h2 {
-    margin: 0;
-    color: #1f3e2e;
-    font-size: 1.4rem;
-}
-
-.modal p {
-    margin: 0;
-    color: #2f5140;
-    font-size: 1rem;
-    line-height: 1.6;
-}
-
-.modal button {
-    margin-top: 0.5rem;
-    width: 100%;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-}
-
-@keyframes slideUp {
-    from { transform: translateY(24px); opacity: 0; }
-    to   { transform: translateY(0);    opacity: 1; }
+    table th,
+    table td {
+        padding: 0.6rem 0.75rem;
+        font-size: 0.85rem;
+    }
 }

@@ -1,41 +1,91 @@
-<div class="reporte-card">
-  <h1>Reportar un Animal</h1>
-  <p>Cuéntanos qué está pasando y nos pondremos en contacto contigo pronto.</p>
+<div class="registro-card">
+  <h1>Reportes de Animales Rescatados</h1>
+  <p>Resumen general de todos los animales registrados en el sistema.</p>
 
-  <div class="form-group">
-    <label for="nombre">Nombre completo</label>
-    <input id="nombre" type="text" [(ngModel)]="form().nombre"
-      placeholder="Ej: Juan Pérez" />
-  </div>
+  @if (cargando()) {
+    <p class="cargando">Cargando datos...</p>
+  }
 
-  <div class="form-group">
-    <label for="telefono">Número de teléfono</label>
-    <input id="telefono" type="tel" [(ngModel)]="form().telefono"
-      placeholder="Ej: 3001234567" />
-  </div>
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+    <button (click)="cargarDatos()" class="btn-reintentar">Reintentar</button>
+  }
 
-  <div class="form-group">
-    <label for="reporte">Reporte detallado</label>
-    <textarea id="reporte" [(ngModel)]="form().reporte" rows="5"
-      placeholder="Describe la situación del animal, su ubicación, estado, comportamiento..."></textarea>
-  </div>
-
-  <div class="form-actions">
-    <button type="button" (click)="limpiar()" [disabled]="enviando()">Limpiar</button>
-    <button type="button" (click)="enviar()" [disabled]="enviando()">
-      {{ enviando() ? 'Enviando...' : 'Enviar reporte' }}
-    </button>
-  </div>
-</div>
-
-<!-- Modal de éxito -->
-@if (mostrarModal()) {
-  <div class="modal-overlay" (click)="cerrarModal()">
-    <div class="modal" (click)="$event.stopPropagation()">
-      <div class="modal-icon">✓</div>
-      <h2>¡Reporte enviado!</h2>
-      <p>Se ha enviado el reporte, nos contactaremos con usted pronto.</p>
-      <button (click)="cerrarModal()">Aceptar</button>
+  @if (!cargando() && !error()) {
+    <!-- Tarjetas de totales -->
+    <div class="totales-grid">
+      <div class="tarjeta tarjeta-total">
+        <span class="tarjeta-numero">{{ totalAnimales() }}</span>
+        <span class="tarjeta-label">Total Animales</span>
+      </div>
+      <div class="tarjeta tarjeta-saludable">
+        <span class="tarjeta-numero">{{ totalSaludables() }}</span>
+        <span class="tarjeta-label">Saludables</span>
+      </div>
+      <div class="tarjeta tarjeta-herido">
+        <span class="tarjeta-numero">{{ totalHeridos() }}</span>
+        <span class="tarjeta-label">Heridos</span>
+      </div>
+      <div class="tarjeta tarjeta-enfermo">
+        <span class="tarjeta-numero">{{ totalEnfermos() }}</span>
+        <span class="tarjeta-label">Enfermos</span>
+      </div>
     </div>
-  </div>
-}
+
+    <!-- Totales por mes -->
+    @if (totalesPorMes().length > 0) {
+      <div class="seccion">
+        <h2>Animales por Mes</h2>
+        <div class="meses-grid">
+          @for (item of totalesPorMes(); track item.mes) {
+            <div class="mes-badge">
+              <span class="mes-nombre">{{ item.mes }}</span>
+              <span class="mes-total">{{ item.total }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Tabla completa -->
+    <div class="seccion">
+      <h2>Listado Completo</h2>
+      @if (animales().length > 0) {
+        <div class="tabla-contenedor">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Especie</th>
+                <th>Animal</th>
+                <th>Mes</th>
+                <th>Año</th>
+                <th>Estado</th>
+                <th>Fecha Registro</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (animal of animales(); track animal.id) {
+                <tr>
+                  <td>{{ animal.id }}</td>
+                  <td>{{ animal.especie }}</td>
+                  <td>{{ animal.animal }}</td>
+                  <td>{{ animal.mes }}</td>
+                  <td>{{ animal.ano }}</td>
+                  <td>
+                    <span class="estado-badge" [class]="'estado-' + animal.estado.toLowerCase()">
+                      {{ animal.estado }}
+                    </span>
+                  </td>
+                  <td>{{ animal.fecha_registro }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <p class="sin-datos">No hay animales registrados aún.</p>
+      }
+    </div>
+  }
+</div>

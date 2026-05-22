@@ -12,9 +12,9 @@ export const routes: Routes = [
   {
     path: 'consulta',
     loadComponent: () => import('./consulta/consulta').then(m => m.Consulta)
-  },as
+  },
   {
     path: 'reportes',
-    loadComponent: () => import('./reportes/reportes').then(m => m.Reportes)
+    loadComponent: () => import('./reportes/reportes').then(m => m.ReportesComponent)
   }
 ];

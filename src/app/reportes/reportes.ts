@@ -1,58 +1,70 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { Component, signal, computed } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-reportes',
+  imports: [FormsModule],
   templateUrl: './reportes.html',
-  styleUrls: ['./reportes.css']
+  styleUrl: './reportes.css',
 })
-export class ReportesComponent implements OnInit {
+export class Reportes {
+  protected animales = signal<any[]>([]);
+  protected cargando = signal(false);
+  protected error = signal('');
 
-  reporteForm!: FormGroup;
-  mostrarModal = false;
-  loading = false;
+  protected readonly API_URL = 'http://localhost/Proyectofinal/consultar.php';
 
-  // Cambia esta URL por la de tu backend
-  private apiUrl = 'http://localhost:3000/api/reportes';
+  // Totales computados
+  protected totalAnimales = computed(() => this.animales().length);
+  protected totalSaludables = computed(() => this.animales().filter(a => a.estado === 'Saludable').length);
+  protected totalHeridos = computed(() => this.animales().filter(a => a.estado === 'Herido').length);
+  protected totalEnfermos = computed(() => this.animales().filter(a => a.estado === 'Enfermo').length);
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
-
-  ngOnInit(): void {
-    this.reporteForm = this.fb.group({
-      especie:      ['', [Validators.required, Validators.minLength(2)]],
-      tipoAnimal:   ['', Validators.required],
-      fechaReporte: ['', Validators.required],
-      ubicacion:    ['', [Validators.required, Validators.minLength(5)]],
-      telefono:     ['', [Validators.required, Validators.pattern(/^[0-9]{7,15}$/)]],
-      descripcion:  ['']
-    });
-  }
-
-  onSubmit(): void {
-    if (this.reporteForm.invalid) return;
-
-    this.loading = true;
-
-    this.http.post(this.apiUrl, this.reporteForm.value).subscribe({
-      next: () => {
-        this.loading = false;
-        this.mostrarModal = true;
-        this.resetForm();
-      },
-      error: (err) => {
-        this.loading = false;
-        console.error('Error al enviar el reporte:', err);
-        alert('Ocurrió un error al enviar el reporte. Intenta de nuevo.');
+  // Totales por mes
+  protected totalesPorMes = computed(() => {
+    const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const resultado: {mes: string, total: number}[] = [];
+    for (const mes of meses) {
+      const total = this.animales().filter(a => a.mes === mes).length;
+      if (total > 0) {
+        resultado.push({ mes, total });
       }
-    });
+    }
+    return resultado;
+  });
+
+  constructor() {
+    this.cargarDatos();
   }
 
-  resetForm(): void {
-    this.reporteForm.reset();
-  }
+  protected async cargarDatos(): Promise<void> {
+    this.cargando.set(true);
+    this.error.set('');
 
-  cerrarModal(): void {
-    this.mostrarModal = false;
+    try {
+      const response = await fetch(this.API_URL);
+      const text = await response.text();
+      console.log('RESPUESTA RAW:', text);
+
+      let result;
+      try {
+        result = JSON.parse(text);
+      } catch (e) {
+        this.error.set('El servidor no devolvió JSON válido.');
+        console.error('Texto recibido:', text);
+        return;
+      }
+
+      if (result.success) {
+        this.animales.set(result.data);
+      } else {
+        this.error.set('Error del servidor: ' + result.message);
+      }
+    } catch (err) {
+      this.error.set('Error de conexión. Verifica que XAMPP esté encendido.');
+      console.error(err);
+    } finally {
+      this.cargando.set(false);
+    }
   }
 }
