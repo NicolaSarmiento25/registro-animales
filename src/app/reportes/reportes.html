@@ -1,0 +1,41 @@
+<div class="reporte-card">
+  <h1>Reportar un Animal</h1>
+  <p>Cuéntanos qué está pasando y nos pondremos en contacto contigo pronto.</p>
+
+  <div class="form-group">
+    <label for="nombre">Nombre completo</label>
+    <input id="nombre" type="text" [(ngModel)]="form().nombre"
+      placeholder="Ej: Juan Pérez" />
+  </div>
+
+  <div class="form-group">
+    <label for="telefono">Número de teléfono</label>
+    <input id="telefono" type="tel" [(ngModel)]="form().telefono"
+      placeholder="Ej: 3001234567" />
+  </div>
+
+  <div class="form-group">
+    <label for="reporte">Reporte detallado</label>
+    <textarea id="reporte" [(ngModel)]="form().reporte" rows="5"
+      placeholder="Describe la situación del animal, su ubicación, estado, comportamiento..."></textarea>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" (click)="limpiar()" [disabled]="enviando()">Limpiar</button>
+    <button type="button" (click)="enviar()" [disabled]="enviando()">
+      {{ enviando() ? 'Enviando...' : 'Enviar reporte' }}
+    </button>
+  </div>
+</div>
+
+<!-- Modal de éxito -->
+@if (mostrarModal()) {
+  <div class="modal-overlay" (click)="cerrarModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-icon">✓</div>
+      <h2>¡Reporte enviado!</h2>
+      <p>Se ha enviado el reporte, nos contactaremos con usted pronto.</p>
+      <button (click)="cerrarModal()">Aceptar</button>
+    </div>
+  </div>
+}
