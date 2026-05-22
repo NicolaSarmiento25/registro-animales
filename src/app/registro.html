@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Registro de Animales Rescatados</title>
+<link rel="stylesheet" href="personalizacion.css">
+</head>
+<body>
+<h1>Registro de Animal Rescatado</h1>
+
+<form action="guardar.php" method="POST">
+<label>Especie:</label><br>
+<input type="text" name="especie" required><br><br>
+<label>Tipo de animal:</label><br>
+<input type="text" name="animal" required><br><br>
+<label>Mes de rescate:</label><br>
+<select name="mes" required>
+
+<option value="">Seleccione</option>
+<option value="Enero">Enero</option>
+<option value="Febrero">Febrero</option>
+<option value="Marzo">Marzo</option>
+<option value="Abril">Abril</option>
+<option value="Mayo">Mayo</option>
+<option value="Junio">Junio</option>
+<option value="Julio">Julio</option>
+<option value="Agosto">Agosto</option>
+<option value="Septiembre">Septiembre</option>
+<option value="Octubre">Octubre</option>
+<option value="Noviembre">Noviembre</option>
+<option value="Diciembre">Diciembre</option>
+</select><br><br>
+
+<label>Año en que fue rescatado:</label><br>
+<input type="number" name="año" required><br><br>
+
+<label>Estado del animal:</label><br>
+<select name="estado" required>
+    <option value="">Seleccione</option>
+    <option value="Saludable">Saludable</option>
+    <option value="Herido">Herido</option>
+    <option value="Enfermo">Enfermo</option>
+</select><br><br>
+
+<button type="submit">Guardar</button>
+</form>
+</body>
+</html>

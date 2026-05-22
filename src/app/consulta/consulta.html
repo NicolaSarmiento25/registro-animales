@@ -1,0 +1,46 @@
+<h1>Consulta de Animales Rescatados</h1>
+
+<div class="filtro">
+  <label>Seleccione el mes:</label>
+  <select [ngModel]="mesSeleccionado()" (ngModelChange)="mesSeleccionado.set($event)">
+    <option value="">Seleccione un mes</option>
+    @for (m of meses; track m) {
+      <option [value]="m">{{m}}</option>
+    }
+  </select>
+  <button type="button" (click)="buscar()">Buscar</button>
+</div>
+
+@if (cargando()) {
+  <p class="cargando">Cargando...</p>
+}
+
+@if (total() > 0) {
+  <div class="resultados">
+    <h2>Animales rescatados en {{ mesSeleccionado() }}</h2>
+    <p class="total">Total: <strong>{{ total() }}</strong> animal(es)</p>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Especie</th>
+          <th>Tipo de Animal</th>
+          <th>Año</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (animal of animales(); track animal.id) {
+          <tr>
+            <td>{{ animal.especie }}</td>
+            <td>{{ animal.animal }}</td>
+            <td>{{ animal.ano }}</td>
+            <td>{{ animal.estado }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+} @else if (mesSeleccionado() && !cargando()) {
+  <p class="sin-resultados">No se encontraron animales rescueates en este mes.</p>
+}
