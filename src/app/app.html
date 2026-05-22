@@ -1,2 +1,26 @@
-<app-menu></app-menu>
-<router-outlet></router-outlet>
+<nav class="menu">
+  <ul class="menu__list">
+    <li class="menu__item">
+      <a class="menu__link" routerLink="/registro" routerLinkActive="active">
+        <span class="menu__label">Nuevo</span>
+        <span class="menu__title">Registro</span>
+      </a>
+    </li>
+    <li class="menu__item">
+      <a class="menu__link" routerLink="/consulta" routerLinkActive="active">
+        <span class="menu__label">Buscar</span>
+        <span class="menu__title">Consulta</span>
+      </a>
+    </li>
+    <li class="menu__item">
+      <a class="menu__link" routerLink="/reportes" routerLinkActive="active">
+        <span class="menu__label">Ver</span>
+        <span class="menu__title">Reportes</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<main class="contenido">
+  <router-outlet></router-outlet>
+</main>

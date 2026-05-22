@@ -1,10 +1,20 @@
 import { Routes } from '@angular/router';
-import { Menu } from './menu/menu';
-import { Registro } from './registro/registro';
-import { Consulta } from './consulta/consulta';
 
 export const routes: Routes = [
-  { path: '', component: Menu },
-  { path: 'registro', component: Registro },
-  { path: 'consulta', component: Consulta },
+  { path: '', redirectTo: 'registro', pathMatch: 'full' },
+  {
+    path: 'registro',
+    // Ajusta la ruta según el nombre real de tu archivo:
+    // Si se llama registro.ts        -> './registro'
+    // Si se llama registro.component.ts -> './registro.component'
+    loadComponent: () => import('./registro/registro').then(m => m.Registro)
+  },
+  {
+    path: 'consulta',
+    loadComponent: () => import('./consulta/consulta').then(m => m.Consulta)
+  },as
+  {
+    path: 'reportes',
+    loadComponent: () => import('./reportes/reportes').then(m => m.Reportes)
+  }
 ];
