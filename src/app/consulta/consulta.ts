@@ -18,31 +18,45 @@ export class Consulta {
     'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
   ];
 
-  protected buscar(): void {
+  // URL completa al backend PHP (Apache puerto 80)
+  protected readonly API_URL = 'http://localhost/Proyectofinal/consultar.php';
+
+  protected async buscar(): Promise<void> {
     if (!this.mesSeleccionado()) {
       alert('Por favor seleccione un mes');
       return;
     }
 
     this.cargando.set(true);
+    this.animales.set([]);
+    this.total.set(0);
 
-    fetch(`consultar.php?mes=${encodeURIComponent(this.mesSeleccionado())}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          this.animales.set(data.animales);
-          this.total.set(data.total);
-        } else {
-          alert(data.message);
-          this.animales.set([]);
-          this.total.set(0);
-        }
-        this.cargando.set(false);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Error al consultar los datos');
-        this.cargando.set(false);
-      });
+    try {
+      const url = `${this.API_URL}?mes=${encodeURIComponent(this.mesSeleccionado())}`;
+      const response = await fetch(url);
+      const text = await response.text();
+      console.log('RESPUESTA RAW:', text);
+
+      let result;
+      try {
+        result = JSON.parse(text);
+      } catch (e) {
+        alert('El servidor no devolvió JSON válido. Revisa la consola (F12).');
+        console.error('Texto recibido:', text);
+        return;
+      }
+
+      if (result.success) {
+        this.animales.set(result.data);
+        this.total.set(result.count);
+      } else {
+        alert('Error del servidor: ' + result.message);
+      }
+    } catch (error) {
+      alert('Error de conexión. Verifica que Apache y MySQL estén encendidos en XAMPP.');
+      console.error(error);
+    } finally {
+      this.cargando.set(false);
+    }
   }
 }

@@ -3,39 +3,28 @@
   <p>Completa los datos del animal para guardarlos en la base de datos.</p>
 
   <form (ngSubmit)="guardar()">
-
     <div class="form-group">
       <label for="especie">Especie:</label>
-      <input 
-        type="text" 
-        id="especie"
-        [ngModel]="form().especie" 
-        (ngModelChange)="form.update(f => ({...f, especie: $event}))" 
-        name="especie" 
-        placeholder="Ej: Perro, Gato, Ave..."
-        required>
+      <input type="text" id="especie"
+        [ngModel]="form().especie"
+        (ngModelChange)="form.update(f => ({...f, especie: $event}))"
+        name="especie" placeholder="Ej: Perro, Gato, Ave..." required>
     </div>
 
     <div class="form-group">
       <label for="animal">Tipo de animal / Raza:</label>
-      <input 
-        type="text" 
-        id="animal"
-        [ngModel]="form().animal" 
-        (ngModelChange)="form.update(f => ({...f, animal: $event}))" 
-        name="animal" 
-        placeholder="Ej: Labrador, Siamés, Paloma..."
-        required>
+      <input type="text" id="animal"
+        [ngModel]="form().animal"
+        (ngModelChange)="form.update(f => ({...f, animal: $event}))"
+        name="animal" placeholder="Ej: Labrador, Siamés, Paloma..." required>
     </div>
 
     <div class="form-group">
       <label for="mes">Mes de rescate:</label>
-      <select 
-        id="mes"
-        [ngModel]="form().mes" 
-        (ngModelChange)="form.update(f => ({...f, mes: $event}))" 
-        name="mes" 
-        required>
+      <select id="mes"
+        [ngModel]="form().mes"
+        (ngModelChange)="form.update(f => ({...f, mes: $event}))"
+        name="mes" required>
         <option value="">Seleccione un mes</option>
         @for (m of meses; track m) {
           <option [value]="m">{{m}}</option>
@@ -45,23 +34,18 @@
 
     <div class="form-group">
       <label for="ano">Año:</label>
-      <input 
-        type="number" 
-        id="ano"
-        [ngModel]="form().ano" 
-        (ngModelChange)="form.update(f => ({...f, ano: $event}))" 
-        name="ano" 
-        required>
+      <input type="number" id="ano"
+        [ngModel]="form().ano"
+        (ngModelChange)="form.update(f => ({...f, ano: $event}))"
+        name="ano" required>
     </div>
 
     <div class="form-group">
       <label for="estado">Estado del animal:</label>
-      <select 
-        id="estado"
-        [ngModel]="form().estado" 
-        (ngModelChange)="form.update(f => ({...f, estado: $event}))" 
-        name="estado" 
-        required>
+      <select id="estado"
+        [ngModel]="form().estado"
+        (ngModelChange)="form.update(f => ({...f, estado: $event}))"
+        name="estado" required>
         <option value="">Seleccione estado</option>
         <option value="Saludable">Saludable</option>
         <option value="Herido">Herido</option>
@@ -71,13 +55,8 @@
 
     <div class="form-actions">
       <button type="submit" [disabled]="guardando()">
-        @if (guardando()) {
-          Guardando...
-        } @else {
-          Guardar Registro
-        }
+        @if (guardando()) { Guardando... } @else { Guardar Registro }
       </button>
     </div>
-
   </form>
 </div>
